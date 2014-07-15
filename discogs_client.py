@@ -345,7 +345,7 @@ class NewSearch(APIBase):
         self._id = query
         self._results = {}
         self._exactresults = []
-        self._page = page
+        self._page = 1
         APIBase.__init__(self)
         self._params['q'] = self._id
 
