@@ -1,5 +1,3 @@
-__version_info__ = (1,1,1)
-__version__ = '1.1.1'
 
 import requests
 import json
@@ -78,7 +76,7 @@ class APIBase(object):
 
     @property
     def _uri(self):
-        return '%s/%s/%s' % (api_uri, self._uri_name, urllib.quote_plus(unicode(self._id).encode('utf-8')))
+        return '%s/%s' % (api_uri, self._uri_name))
 
     @property
     def data(self):
@@ -299,6 +297,69 @@ class Search(APIBase):
     @property
     def _uri(self):
         return '%s/%s' % (api_uri, self._uri_name)
+
+    @property
+    def exactresults(self):
+        if not self.data:
+            return []
+
+        if not self._exactresults:
+            for result in self.data.get('exactresults', []):
+                self._exactresults.append(self._to_object(result))
+        return self._exactresults
+
+    def results(self, page=1):
+        page_key = 'page%s' % page
+
+        if page != self._page:
+            if page > self.pages:
+                raise PaginationError('Page number exceeds maximum number of pages returned.')
+            self._params['page'] = page
+            self._clear_cache()
+
+        if not self.data:
+            return []
+
+        if page_key not in self._results:
+            self._results[page_key] = []
+            for result in self.data['searchresults']['results']:
+                self._results[page_key].append(self._to_object(result))
+
+        return self._results[page_key]
+
+    @property
+    def numresults(self):
+        if not self.data:
+            return 0
+        return int(self.data['searchresults'].get('numResults', 0))
+
+    @property
+    def pages(self):
+        if not self.data:
+            return 0
+        return (self.numresults / 20) + 1
+
+
+class NewSearch(APIBase):
+    def __init__(self, query):
+        self._id = query
+        self._results = {}
+        self._exactresults = []
+        self._page = page
+        APIBase.__init__(self)
+        self._params['q'] = self._id
+
+    def _to_object(self, result):
+        id = result['title']
+        if result['type'] in ('master', 'release'):
+            id = result['uri'].split('/')[-1]
+        elif result['type'] == 'anv':
+            return Artist(id, anv=result.get('anv'))
+        return _class_from_string(result['type'])(id)
+
+    @property
+    def _uri(self):
+        return '%s/%s' % (api_uri, 'database/search')
 
     @property
     def exactresults(self):
