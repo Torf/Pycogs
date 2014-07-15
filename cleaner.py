@@ -10,26 +10,31 @@ def SearchArtistName(foldername):
   s = discogs.NewSearch(foldername, 'artist')
   result = s.results()
   
-  if len(result) >= 1:
-    found = result[0].name
-    return found
-    
-  return None
+  names = []
+  
+  for artist in result:
+    names.append(artist.name)
+  
+  return names
 
 def SafeArtistSearch(artistName):
-  foundArtist = SearchArtistName(artistName)
+  foundArtists = SearchArtistName(artistName)
   
-  if foundArtist.strip().lower() != artistName.strip().lower():
-    while True:
-      entry = raw_input('Is "%s" (current) and "%s" (new) the same ? (Y/N) :' % (artistName, foundArtist))
-      if entry.strip().lower() == 'y':
-        return foundArtist
+  for foundArtist in foundArtists:
+    
+    if foundArtist.strip().lower() != artistName.strip().lower():
+      while True:
+        entry = raw_input('Is "%s" (current) and "%s" (new) the same ? (Y/N) :' % (artistName, foundArtist))
+        if entry.strip().lower() == 'y':
+          return foundArtist
+        
+        if entry.strip().lower() == 'n':
+          continue
+    
+    else:
+      return foundArtist
       
-      if entry.strip().lower() == 'n':
-        return None
-  
-  else:
-    return foundArtist
+  return None
 
 def main(args):
   
@@ -39,7 +44,7 @@ def main(args):
     if result == None:
       print { "infos": "Artist %s unknown." % dirname }
     
-    if result != dirname:
+    elif result != dirname:
       print { "infos": "Result %s differes from foldername %s." % (result, dirname) }
 
 if __name__ == "__main__":
