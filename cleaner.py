@@ -11,7 +11,14 @@ def searchArtistName(foldername):
     
   return None
 
+def main(args):
+  if len(args) < 1:
+    print 'help: cleaner.py <artistSearch>'
+    return
 
-print searchArtistName('azealia banks')
+  print searchArtistName(args[0])
 
 
+if __name__ == "__main__":
+   main(sys.argv[1:])
+  
