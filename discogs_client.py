@@ -385,7 +385,7 @@ class NewSearch(APIBase):
 
         if page_key not in self._results:
             self._results[page_key] = []
-            for result in self.data['searchresults']['results']:
+            for result in self.data['results']:
                 self._results[page_key].append(self._to_object(result))
 
         return self._results[page_key]
@@ -394,7 +394,7 @@ class NewSearch(APIBase):
     def numresults(self):
         if not self.data:
             return 0
-        return int(self.data['searchresults'].get('numResults', 0))
+        return int(self.data['pagination'].get('items', 0))
 
     @property
     def pages(self):
