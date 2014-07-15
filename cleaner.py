@@ -32,10 +32,7 @@ def SafeArtistSearch(artistName):
     return foundArtist
 
 def main(args):
-  if len(args) < 1:
-    print 'help: cleaner.py <artistSearch>'
-    return
-
+  
   for dirname in os.listdir("/medias/Musique/"):
     result = SafeArtistSearch(dirname)
     
