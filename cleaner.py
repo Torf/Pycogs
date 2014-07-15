@@ -21,10 +21,10 @@ def SafeArtistSearch(artistName):
   if foundArtist.strip().lower() != artistName.strip().lower():
     while True:
       entry = raw_input('Is "%s" and "%s" the same ? (Y/N) :' % (artistName, foundArtist))
-      if entry.trim().lower() == 'y':
+      if entry.strip().lower() == 'y':
         return foundArtist
       
-      if entry.trim().lower() == 'n':
+      if entry.strip().lower() == 'n':
         return None
   
   else:
