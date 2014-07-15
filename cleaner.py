@@ -4,13 +4,15 @@ import sys
 discogs.user_agent = 'Pytest/0.1 +http://ww.abc.fr'
 
 def searchArtistName(foldername):
-  print 'Searching artist %s' % foldername
+  print 'Searching artist: %s' % foldername
   
   s = discogs.NewSearch(foldername, 'artist')
   result = s.results()
   
   if len(result) >= 1:
     found = result[0].name
+    
+    print 'Found artist: %s' % found
     
     if found.strip().lower() == foldername.strip().lower():
       return found
