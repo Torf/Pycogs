@@ -82,6 +82,7 @@ class APIBase(object):
     def data(self):
         if self._response.content and self._response.status_code == 200:
             release_json = json.loads(self._response.content)
+            print release_json
             return release_json.get('resp').get(self._uri_name)
         else:
             status_code = self._response.status_code
