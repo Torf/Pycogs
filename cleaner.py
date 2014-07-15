@@ -14,6 +14,8 @@ def SearchArtistName(foldername):
   
   for artist in result:
     names.append(artist.name)
+    if len(names) >= 3:
+      return names
   
   return names
 
