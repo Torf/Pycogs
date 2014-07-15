@@ -4,6 +4,8 @@ import sys
 discogs.user_agent = 'Pytest/0.1 +http://ww.abc.fr'
 
 def searchArtistName(foldername):
+  print 'Searching artist %s' % foldername
+  
   s = discogs.NewSearch(foldername, 'artist')
   result = s.results()
   
