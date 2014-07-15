@@ -341,13 +341,18 @@ class Search(APIBase):
 
 
 class NewSearch(APIBase):
-    def __init__(self, query):
+    def __init__(self, query, searchtype = None, page = None):
         self._id = query
         self._results = {}
         self._exactresults = []
-        self._page = 1
+        self._page = 0 if not page else page
         APIBase.__init__(self)
         self._params['q'] = self._id
+        if page:
+            self._params['page'] = page
+            
+        if searchtype:
+            self._params['type'] = searchtype
 
     def _to_object(self, result):
         id = result['title']
