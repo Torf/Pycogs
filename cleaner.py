@@ -25,13 +25,15 @@ def SafeArtistSearch(artistName):
   for foundArtist in foundArtists:
     
     if foundArtist.strip().lower() != artistName.strip().lower():
-      while True:
+      stop = False
+      
+      while not stop:
         entry = raw_input('Is "%s" (current) and "%s" (new) the same ? (Y/N) :' % (artistName, foundArtist))
         if entry.strip().lower() == 'y':
           return foundArtist
         
         if entry.strip().lower() == 'n':
-          continue
+          stop = True
     
     else:
       return foundArtist
