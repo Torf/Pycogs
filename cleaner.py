@@ -28,7 +28,7 @@ def SafeArtistSearch(artistName):
       stop = False
       
       while not stop:
-        entry = raw_input('Is "%s" (current) and "%s" (new) the same ? (Y/N) :' % (artistName.encode('utf-8'), foundArtist.encode('utf-8')))
+        entry = raw_input('Is "%s" (current) and "%s" (new) the same ? (Y/N) :' % (artistName.decode('utf-8'), foundArtist.decode('utf-8')))
         if entry.strip().lower() == 'y':
           return foundArtist
         
