@@ -11,21 +11,32 @@ def searchArtistName(foldername):
   
   if len(result) >= 1:
     found = result[0].name
-    
-    print 'Found artist: %s' % found
-    
-    if found.strip().lower() == foldername.strip().lower():
-      return found
+    return found
     
   return None
+
+def SafeArtistSearch(artistName):
+  foundArtist = searchArtistName(artistName)
+  
+  if foundArtist.strip().lower() != artistName.strip().lower():
+    while True:
+      entry = input('Is "%s" and "%s" the same ? (Y/N) :')
+      if entry.trim().lower() == 'y':
+        return foundArtist
+      
+      if entry.trim().lower() == 'n':
+        return None
+  
+  else:
+    return foundArtist
 
 def main(args):
   if len(args) < 1:
     print 'help: cleaner.py <artistSearch>'
     return
 
-  print searchArtistName(args[0])
-
+  print "Final Result: %s" % SafeArtistSearch(args[0])
+        
 
 if __name__ == "__main__":
    main(sys.argv[1:])
