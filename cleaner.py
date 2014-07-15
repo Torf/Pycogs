@@ -12,7 +12,7 @@ def searchArtistName(foldername):
   if len(result) >= 1:
     found = result[0].name
     
-    if found.strip().lower() = foldername.strip().lower():
+    if found.strip().lower() == foldername.strip().lower():
       return found
     
   return None
