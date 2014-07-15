@@ -42,15 +42,17 @@ def SafeArtistSearch(artistName):
 
 def main(args):
   
+  requiredRename = []
+  
   for dirname in os.listdir("/medias/Musique/"):
     result = SafeArtistSearch(dirname)
     
-    if result == None:
-      print { "infos": "Artist %s unknown." % dirname }
-    
-    elif result != dirname:
-      print { "infos": "Result %s differes from foldername %s." % (result, dirname) }
-
+    if result and result != dirname:
+      requiredRename.append({'current':dirname, 'new':result})
+      
+  
+  print requiredRename
+      
 if __name__ == "__main__":
    main(sys.argv[1:])
   
