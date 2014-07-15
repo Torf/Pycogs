@@ -4,6 +4,8 @@ import os
 
 discogs.user_agent = 'Pytest/0.1 +http://ww.abc.fr'
 
+toAsk = []
+
 def SearchArtistName(foldername):
   print { "infos": 'Searching artist: %s' % foldername }
   
@@ -23,26 +25,45 @@ def SearchArtistName(foldername):
 def SafeArtistSearch(artistName):
   foundArtists = SearchArtistName(artistName)
   
+  haveToAsk = False
+  resultArtist = None
+  
   for foundArtist in foundArtists:
     
     if foundArtist.strip().lower() != artistName.strip().lower():
-      stop = False
-      
-      while not stop:
-        entry = raw_input('Is %s the same ? (Y/N) :' % {'current':artistName, 'new':foundArtist})
-        if entry.strip().lower() == 'y':
-          return foundArtist
-        
-        if entry.strip().lower() == 'n':
-          stop = True
-    
+      haveToAsk = True
     else:
-      return foundArtist
+      resultArtist = foundArtist
+    
+    break
       
+  if haveToAsk:
+    toAsk.append({'current':artistName, 'results':foundArtists})
+    return None
+  
+  return resultArtist
+
+
+def Ask(question):
+  
+  for foundArtist in question['results']:
+    stop = False
+
+    while not stop:
+      entry = raw_input('Is %s the same ? (Y/N) :' % {'current':question['current'], 'new':foundArtist})
+      if entry.strip().lower() == 'y':
+        return foundArtist
+        stop = True
+  
+      elif entry.strip().lower() == 'n':
+        stop = True
+    
   return None
+
 
 def main(args):
   
+  toAsk = []
   requiredRename = []
   notFound = []
   
@@ -54,7 +75,14 @@ def main(args):
     
     elif result != dirname:
       requiredRename.append({'current':dirname, 'new':result})
-      
+  
+  
+  for question in toAsk:
+    r = Ask(question)
+    
+    if r and r != toAsk['current']:
+      requiredRename.append({'current':toAsk['current'], 'new':r})
+  
   
   print requiredRename
   
