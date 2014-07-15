@@ -5,7 +5,7 @@ import os
 discogs.user_agent = 'Pytest/0.1 +http://ww.abc.fr'
 
 def SearchArtistName(foldername):
-  print 'Searching artist: %s' % foldername
+  print { "infos": 'Searching artist: %s' % foldername }
   
   s = discogs.NewSearch(foldername, 'artist')
   result = s.results()
@@ -37,10 +37,10 @@ def main(args):
     result = SafeArtistSearch(dirname)
     
     if result == None:
-      print "Artist %s unknown." % dirname
+      print { "infos": "Artist %s unknown." % dirname }
     
     if result != dirname:
-      print "Result %s differes from foldername %s." % (result, dirname)
+      print { "infos": "Result %s differes from foldername %s." % (result, dirname) }
 
 if __name__ == "__main__":
    main(sys.argv[1:])
