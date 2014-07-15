@@ -6,4 +6,4 @@ s = discogs.NewSearch('azealia banks')
 
 print s._uri
 
-print s.exactresults
+print s.results()
