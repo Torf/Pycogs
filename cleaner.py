@@ -1,4 +1,5 @@
 import discogs_client as discogs
+import sys
 
 discogs.user_agent = 'Pytest/0.1 +http://ww.abc.fr'
 
