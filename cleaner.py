@@ -4,5 +4,6 @@ discogs.user_agent = 'Pytest/0.1 +http://ww.abc.fr'
 
 s = discogs.NewSearch('azealia banks')
 
-print s
+print s._uri
+
 print s.exactresults
