@@ -43,15 +43,21 @@ def SafeArtistSearch(artistName):
 def main(args):
   
   requiredRename = []
+  notFound = []
   
   for dirname in os.listdir("/medias/Musique/"):
     result = SafeArtistSearch(dirname)
     
-    if result and result != dirname:
+    if not result:
+      notFound.append({ 'name': dirname })
+    
+    elif result != dirname:
       requiredRename.append({'current':dirname, 'new':result})
       
   
   print requiredRename
+  
+  print "Not Found: %s" % notFound
       
 if __name__ == "__main__":
    main(sys.argv[1:])
