@@ -1,9 +1,10 @@
 import discogs_client as discogs
 import sys
+import os
 
 discogs.user_agent = 'Pytest/0.1 +http://ww.abc.fr'
 
-def searchArtistName(foldername):
+def SearchArtistName(foldername):
   print 'Searching artist: %s' % foldername
   
   s = discogs.NewSearch(foldername, 'artist')
@@ -16,7 +17,7 @@ def searchArtistName(foldername):
   return None
 
 def SafeArtistSearch(artistName):
-  foundArtist = searchArtistName(artistName)
+  foundArtist = SearchArtistName(artistName)
   
   if foundArtist.strip().lower() != artistName.strip().lower():
     while True:
@@ -35,8 +36,14 @@ def main(args):
     print 'help: cleaner.py <artistSearch>'
     return
 
-  print "Final Result: %s" % SafeArtistSearch(args[0])
-        
+  for dirname in os.listdir("/medias/Musique/"):
+    result = SafeArtistSearch(dirname)
+    
+    if result == None:
+      print "Artist %s unknown." % dirname
+    
+    if result != dirname:
+      print "Result %s differes from foldername %s." % (result, dirname)
 
 if __name__ == "__main__":
    main(sys.argv[1:])
