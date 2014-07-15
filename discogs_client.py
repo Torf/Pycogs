@@ -76,7 +76,7 @@ class APIBase(object):
 
     @property
     def _uri(self):
-        return '%s/%s' % (api_uri, self._uri_name))
+        return '%s/%s' % (api_uri, self._uri_name)
 
     @property
     def data(self):
