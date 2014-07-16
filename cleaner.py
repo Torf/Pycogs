@@ -2,64 +2,50 @@ import discogs_client as discogs
 import sys
 import os
 
-discogs.user_agent = 'Pytest/0.1 +http://ww.abc.fr'
-
 toAsk = []
 
-def SearchArtistName(foldername):
-  print { "infos": 'Searching artist: %s' % foldername }
-  
-  s = discogs.NewSearch(foldername, 'artist')
-  result = s.results()
-  
-  names = []
-  
-  for artist in result:
-    if artist.name.strip().lower() == foldername.strip().lower():
-      names.insert(0, artist.name)
-    elif len(names) < 3:
-      names.append(artist.name)
-  
-  return names
+class DiscogsApi(object):
 
-def SafeArtistSearch(artistName):
-  foundArtists = SearchArtistName(artistName)
-  
-  haveToAsk = False
-  resultArtist = None
-  
-  for foundArtist in foundArtists:
-    
-    if foundArtist.strip().lower() != artistName.strip().lower():
-      haveToAsk = True
-    else:
-      resultArtist = foundArtist
-    
-    break
-      
-  if haveToAsk:
-    toAsk.append({'current':artistName, 'results':foundArtists})
+  def __init__(self, verbose = False):
+    self._verbose = verbose
+    discogs.user_agent = 'Pytest/0.1 +http://ww.abc.fr'
+
+  def searchSameArtistName(artistName):
+    if self._verbose:
+      print { "infos": 'Searching same artist name: %s' % artistName }
+
+    s = discogs.NewSearch(artistName, 'artist')
+    result = s.results()
+
+    tries = 0
+
+    for artist in result:
+      if artist.name.strip().lower() == artistName.strip().lower():
+        if self._verbose:
+          print { "infos": 'Found same artist name: %s' % artist.name }
+        return artist.name
+
+      if ++tries > 10:
+        return None
+
     return None
-  
-  return resultArtist
 
+  def searchNearestArtistName(artistName):
+    if self._verbose:
+      print { "infos": 'Searching nearest artist name: %s' % artistName }
 
-def Ask(question):
-  
-  for foundArtist in question['results']:
-    stop = False
+    s = discogs.NewSearch(artistName, 'artist')
+    result = s.results()
 
-    while not stop:
-      entry = raw_input('Is %s the same ? (Y/N) :' % {'current':question['current'], 'new':foundArtist})
-      if entry.strip().lower() == 'y':
-        return foundArtist
-        stop = True
+    names = []
   
-      elif entry.strip().lower() == 'n':
-        stop = True
+    for artist in result:
+      if artist.name.strip().lower() == foldername.strip().lower():
+        names.insert(0, artist.name)
+      elif len(names) < 20:
+        names.append(artist.name)
     
-  return None
-
+    return names
 
 def main(args):
   
@@ -67,26 +53,19 @@ def main(args):
   requiredRename = []
   notFound = []
   
-  for dirname in os.listdir("/medias/Musique/"):
-    result = SafeArtistSearch(dirname)
-    
-    if not result:
-      notFound.append({ 'name': dirname })
-    
-    elif result != dirname:
-      requiredRename.append({'current':dirname, 'new':result})
-  
-  
-  for question in toAsk:
-    r = Ask(question)
-    
-    if r and r != toAsk['current']:
-      requiredRename.append({'current':toAsk['current'], 'new':r})
-  
-  
-  print requiredRename
-  
-  print "Not Found: %s" % notFound
+  musicFolder = "/medias/Musique/"
+
+  for artistDirName in os.listdir(musicFolder):
+    artistFolder = ArtistFolder(musicFolder, artistDirName)
+
+    print artistFolder
+
+    for albumDirName in os.listdir(artistFolder.uri):
+      albumFolder = AlbumFolder(artistFolder, albumDirName)
+
+      print albumFolder
+
+
       
 if __name__ == "__main__":
    main(sys.argv[1:])
