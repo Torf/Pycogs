@@ -35,5 +35,5 @@ class AlbumFolder(BaseFolder):
 		BaseFolder.__init__(self, artistFolder.uri, folderName)
 
 	def __str__(self):
-		return '<%s "%s (%s)">' % (self.__class__.__name__, self._name, self._artistFolder.name)
+		return '<%s "%s" (%s)>' % (self.__class__.__name__, self._name, self._artistFolder.name)
 	
