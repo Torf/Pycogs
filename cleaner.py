@@ -11,7 +11,7 @@ class DiscogsApi(object):
     self._verbose = verbose
     discogs.user_agent = 'Pytest/0.1 +http://ww.abc.fr'
 
-  def searchSameArtistName(artistName):
+  def searchSameArtistName(self, artistName):
     if self._verbose:
       print { "infos": 'Searching same artist name: %s' % artistName }
 
@@ -31,7 +31,7 @@ class DiscogsApi(object):
 
     return None
 
-  def searchNearestArtistName(artistName):
+  def searchNearestArtistName(self, artistName):
     if self._verbose:
       print { "infos": 'Searching nearest artist name: %s' % artistName }
 
