@@ -48,6 +48,5 @@ class MusicFile(BaseNode):
 		BaseNode.__init__(self, albumFolder.uri, fileName)
 
 	def printTags(self):
-		print "\t%s" % self.uri
-		#audio = FLAC(self.uri)
-		#audio.pprint()
+		audio = FLAC(self.uri)
+		audio.pprint()
