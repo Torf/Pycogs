@@ -51,9 +51,12 @@ class MusicFile(BaseNode):
 			self._tags = self._loadTags()
 
 	def _loadTags(self):
-		audio = FLAC()
-		audio.load(self.uri)
-		return audio.tags
+		try:
+			audio = FLAC()
+			audio.load(self.uri)
+			return audio.tags
+		except Exception, e:
+			return None
 
 	@property
 	def tags(self):
