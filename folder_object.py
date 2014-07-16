@@ -8,6 +8,7 @@ class BaseNode(object):
 		if not self._parentFolderPath.endswith("/"):
 			self._parentFolderPath += "/"
 
+		self._isDir = False
 		self._name = nodeName
 
 	def __str__(self):
@@ -18,7 +19,7 @@ class BaseNode(object):
 
 	@property
 	def uri(self):
-		return "%s%s" % (self._parentFolderPath, self._name)
+		return "%s%s%s" % (self._parentFolderPath, self._name, ("/" if self._isDir else ""))
 
 	@property
 	def name(self):
@@ -28,6 +29,7 @@ class ArtistFolder(BaseNode):
 
 	def __init__(self, musicFolder, folderName):
 		BaseNode.__init__(self, musicFolder, folderName)
+		self._isDir = True
 
 
 class AlbumFolder(BaseNode):
@@ -35,6 +37,7 @@ class AlbumFolder(BaseNode):
 	def __init__(self, artistFolder, folderName):
 		self._artistFolder = artistFolder
 		BaseNode.__init__(self, artistFolder.uri, folderName)
+		self._isDir = True
 
 	def __str__(self):
 		return '<%s "%s" (%s)>' % (self.__class__.__name__, self._name, self._artistFolder.name)
