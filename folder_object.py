@@ -1,4 +1,4 @@
-
+import os
 from mutagen.flac import FLAC
 
 class BaseNode(object):
