@@ -1,10 +1,10 @@
 
 class BaseFolder(object):
 
-	def __init__(self, musicFolder, folderName):
-		self._musicFolderPath = musicFolder
-		if not self._musicFolderPath.endswith("/"):
-			self._musicFolderPath += "/"
+	def __init__(self, parentFolder, folderName):
+		self._parentFolderPath = parentFolder
+		if not self._parentFolderPath.endswith("/"):
+			self._parentFolderPath += "/"
 
 		self._name = folderName
 
@@ -16,7 +16,7 @@ class BaseFolder(object):
 
 	@property
 	def uri():
-		return "%s%s" % (self._musicFolderPath, self._name)
+		return "%s%s" % (self._parentFolderPath, self._name)
 
 	@property
 	def name():
@@ -24,19 +24,16 @@ class BaseFolder(object):
 
 class ArtistFolder(BaseFolder):
 
-	def __init__(self, folderName):
-		BaseFolder.__init__(self, folderName)
+	def __init__(self, musicFolder, folderName):
+		BaseFolder.__init__(self, musicFolder, folderName)
 
 
 class AlbumFolder(BaseFolder):
 
-	def __init__(self, folderName, artistFolder):
+	def __init__(self, artistFolder, folderName):
 		self._artistFolder = artistFolder
-		BaseFolder.__init__(self, folderName)
+		BaseFolder.__init__(self, artistFolder.uri, folderName)
 
 	def __str__(self):
 		return '<%s "%s (%s)">' % (self.__class__.__name__, self._name, self._artistFolder.name)
-
-	@property
-	def uri():
-		return "%s%s/%s" % (self._musicFolderPath, artistFolder.name, self._name)
+	
