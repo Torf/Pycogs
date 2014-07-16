@@ -69,11 +69,11 @@ def main(args):
 
       for musicFileName in os.listdir(albumFolder.uri):
         musicFile = folders.MusicFile(albumFolder, musicFileName)
-        if os.path.isdir(musicFile.uri):
+        if os.path.isdir(musicFile.uri) and musicFileName.endswith(".flac"):
           continue
 
         print musicFile
-
+        musicFile.printTags()
 
       
 if __name__ == "__main__":
