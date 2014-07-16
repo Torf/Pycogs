@@ -49,4 +49,5 @@ class MusicFile(BaseNode):
 
 	def printTags(self):
 		audio = FLAC(self.uri)
-		audio.pprint()
+		audio.load(self.uri)
+		print audio.tags
