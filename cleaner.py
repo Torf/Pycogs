@@ -53,6 +53,8 @@ def main(args):
     
   musicFolder = "/medias/Musique/"
 
+  genreList = []
+
   for artistDirName in os.listdir(musicFolder):
     artistFolder = folders.ArtistFolder(musicFolder, artistDirName)
     
@@ -65,7 +67,7 @@ def main(args):
       albumFolder = folders.AlbumFolder(artistFolder, albumDirName)
       if not os.path.isdir(albumFolder.uri):
         continue
-      print albumFolder
+      #print albumFolder
 
       for musicFileName in os.listdir(albumFolder.uri):
         musicFile = folders.MusicFile(albumFolder, musicFileName)
@@ -73,7 +75,12 @@ def main(args):
         if os.path.isdir(musicFile.uri) or not musicFileName.endswith(".flac"):
           continue
 
-        print musicFile.tags['GENRE']
+        if "GENRE" in musicFile.tags:
+          genre = musicFile.tags["GENRE"]
+          if not genre in genreList:
+            genreList.append(genre)
+
+  print genreList
 
       
 if __name__ == "__main__":
