@@ -53,7 +53,7 @@ def main(args):
     
   musicFolder = "/medias/Musique/"
 
-  genreList = {}
+  genreList = { 'a':1}
 
   for artistDirName in os.listdir(musicFolder):
     artistFolder = folders.ArtistFolder(musicFolder, artistDirName)
