@@ -1,12 +1,14 @@
 
-class BaseFolder(object):
+from mutagen.flac import FLAC
 
-	def __init__(self, parentFolder, folderName):
+class BaseNode(object):
+
+	def __init__(self, parentFolder, nodeName):
 		self._parentFolderPath = parentFolder
 		if not self._parentFolderPath.endswith("/"):
 			self._parentFolderPath += "/"
 
-		self._name = folderName
+		self._name = nodeName
 
 	def __str__(self):
 		return '<%s "%s">' % (self.__class__.__name__, self.name)
@@ -22,18 +24,26 @@ class BaseFolder(object):
 	def name(self):
 		return self._name
 
-class ArtistFolder(BaseFolder):
+class ArtistFolder(BaseNode):
 
 	def __init__(self, musicFolder, folderName):
-		BaseFolder.__init__(self, musicFolder, folderName)
+		BaseNode.__init__(self, musicFolder, folderName)
 
 
-class AlbumFolder(BaseFolder):
+class AlbumFolder(BaseNode):
 
 	def __init__(self, artistFolder, folderName):
 		self._artistFolder = artistFolder
-		BaseFolder.__init__(self, artistFolder.uri, folderName)
+		BaseNode.__init__(self, artistFolder.uri, folderName)
 
 	def __str__(self):
 		return '<%s "%s" (%s)>' % (self.__class__.__name__, self._name, self._artistFolder.name)
 	
+class MusicFile(BaseNode):
+
+	def __init__(self, albumFolder, fileName):
+		BaseNode.__init__(self, albumFolder, fileName)
+
+	def printTags(self):
+		audio = FLAC(self.uri)
+		audio.pprint()

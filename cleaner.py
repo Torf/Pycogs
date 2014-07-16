@@ -3,6 +3,7 @@ import sys
 import os
 import folder_object as folders
 
+
 toAsk = []
 
 class DiscogsApi(object):
@@ -49,11 +50,7 @@ class DiscogsApi(object):
     return names
 
 def main(args):
-  
-  toAsk = []
-  requiredRename = []
-  notFound = []
-  
+    
   musicFolder = "/medias/Musique/"
 
   for artistDirName in os.listdir(musicFolder):
@@ -69,6 +66,13 @@ def main(args):
       if not os.path.isdir(albumFolder.uri):
         continue
       print albumFolder
+
+      for musicFileName in os.listdir(albumFolder.uri):
+        musicFile = folders.MusicFile(albumFolder, musicFileName)
+        if os.path.isdir(musicFile.uri):
+          continue
+
+        print musicFile
 
 
       
