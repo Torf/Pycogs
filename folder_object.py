@@ -46,8 +46,16 @@ class MusicFile(BaseNode):
 
 	def __init__(self, albumFolder, fileName):
 		BaseNode.__init__(self, albumFolder.uri, fileName)
+		
+		if not os.path.isdir(musicFile.uri) and musicFileName.endswith(".flac"):
+			self._tags = _getTags(self.uri)
 
-	def printTags(self):
-		audio = FLAC(self.uri)
-		audio.load(self.uri)
-		print audio.tags
+	def _getTags(path):
+		audio = FLAC()
+		audio.load(path)
+		return audio.tags
+
+	@property
+	def tags(self):
+		return self._tags
+
