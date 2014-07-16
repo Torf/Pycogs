@@ -58,12 +58,16 @@ def main(args):
 
   for artistDirName in os.listdir(musicFolder):
     artistFolder = folders.ArtistFolder(musicFolder, artistDirName)
-
+    
+    if not os.path.isdir(artistFolder.uri):
+      continue
+    
     print artistFolder
 
     for albumDirName in os.listdir(artistFolder.uri):
       albumFolder = folders.AlbumFolder(artistFolder, albumDirName)
-
+      if not os.path.isdir(albumFolder.uri):
+        continue
       print albumFolder
 
 
