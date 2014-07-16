@@ -75,9 +75,9 @@ def main(args):
         if os.path.isdir(musicFile.uri) or not musicFileName.endswith(".flac"):
           continue
 
-        if "GENRE" in musicFile.tags:
+        if musicFile.tags and "GENRE" in musicFile.tags:
           genre = musicFile.tags["GENRE"]
-          if not genre in genreList:
+          if genre and not genre in genreList:
             genreList.append(genre)
 
   print genreList
