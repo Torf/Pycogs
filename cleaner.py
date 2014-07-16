@@ -1,7 +1,7 @@
 import discogs_client as discogs
 import sys
 import os
-import ArtistFolder, AlbumFolder
+import folder_object as folders
 
 toAsk = []
 
@@ -57,12 +57,12 @@ def main(args):
   musicFolder = "/medias/Musique/"
 
   for artistDirName in os.listdir(musicFolder):
-    artistFolder = ArtistFolder(musicFolder, artistDirName)
+    artistFolder = folders.ArtistFolder(musicFolder, artistDirName)
 
     print artistFolder
 
     for albumDirName in os.listdir(artistFolder.uri):
-      albumFolder = AlbumFolder(artistFolder, albumDirName)
+      albumFolder = folders.AlbumFolder(artistFolder, albumDirName)
 
       print albumFolder
 
