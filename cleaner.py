@@ -80,7 +80,7 @@ def main(args):
           if genre and not genre in genreList:
             genreList[genre] = 1
           elif genre:
-            genreList[genre]++
+            genreList[genre] = genreList[genre] + 1
 
   print genreList
 
