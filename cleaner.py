@@ -78,7 +78,9 @@ def main(args):
         if musicFile.tags and "GENRE" in musicFile.tags:
           genre = musicFile.tags["GENRE"]
           if genre and not genre in genreList:
-            genreList.append(genre)
+            genreList[genre] = 1
+          elif genre:
+            genreList[genre]++
 
   print genreList
 
