@@ -15,11 +15,11 @@ class BaseFolder(object):
 		return self.__str__().encode('utf-8')
 
 	@property
-	def uri():
+	def uri(self):
 		return "%s%s" % (self._parentFolderPath, self._name)
 
 	@property
-	def name():
+	def name(self):
 		return self._name
 
 class ArtistFolder(BaseFolder):
