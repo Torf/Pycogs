@@ -1,7 +1,7 @@
 import discogs_client as discogs
 import sys
 import os
-import folders
+import ArtistFolder, AlbumFolder
 
 toAsk = []
 
