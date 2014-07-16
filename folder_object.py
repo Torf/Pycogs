@@ -47,7 +47,7 @@ class MusicFile(BaseNode):
 	def __init__(self, albumFolder, fileName):
 		BaseNode.__init__(self, albumFolder.uri, fileName)
 		
-		if not os.path.isdir(musicFile.uri) and musicFileName.endswith(".flac"):
+		if fileName.endswith(".flac") and not os.path.isdir(self.uri):
 			self._tags = _getTags(self.uri)
 
 	def _getTags(path):
