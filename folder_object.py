@@ -42,7 +42,7 @@ class AlbumFolder(BaseNode):
 class MusicFile(BaseNode):
 
 	def __init__(self, albumFolder, fileName):
-		BaseNode.__init__(self, albumFolder, fileName)
+		BaseNode.__init__(self, albumFolder.uri, fileName)
 
 	def printTags(self):
 		audio = FLAC(self.uri)
