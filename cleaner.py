@@ -53,7 +53,7 @@ def main(args):
     
   musicFolder = "/medias/Musique/"
 
-  genreList = []
+  genreList = {}
 
   for artistDirName in os.listdir(musicFolder):
     artistFolder = folders.ArtistFolder(musicFolder, artistDirName)
@@ -77,7 +77,7 @@ def main(args):
 
         if musicFile.tags and "GENRE" in musicFile.tags:
           genre = musicFile.tags["GENRE"]
-          if genre and not genre in genreList:
+          if genre and not genre in genreList.keys():
             genreList[genre] = 1
           elif genre:
             genreList[genre] = genreList[genre] + 1
